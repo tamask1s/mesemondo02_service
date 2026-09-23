@@ -1,0 +1,2330 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:mm02:local:v2",
+  "$comment": "PROTOCOL.md is normative. Unknown command/version receive correlated errors; schemas describe supported requests. Byte, UTF-8, ordering and timeout limits are stream invariants.",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/request"
+    },
+    {
+      "$ref": "#/$defs/response"
+    }
+  ],
+  "$defs": {
+    "request": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "v": {
+              "const": 2
+            },
+            "id": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "command": {
+              "const": "HELLO"
+            },
+            "params": {
+              "type": "object",
+              "properties": {},
+              "required": [],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "v",
+            "id",
+            "command",
+            "params"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "v": {
+              "const": 2
+            },
+            "id": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "command": {
+              "const": "SESSION_OPEN"
+            },
+            "params": {
+              "type": "object",
+              "properties": {},
+              "required": [],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "v",
+            "id",
+            "command",
+            "params"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "v": {
+              "const": 2
+            },
+            "id": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "command": {
+              "const": "STATUS"
+            },
+            "params": {
+              "type": "object",
+              "properties": {},
+              "required": [],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "v",
+            "id",
+            "command",
+            "params"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "v": {
+              "const": 2
+            },
+            "id": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "command": {
+              "const": "SETTINGS_GET"
+            },
+            "params": {
+              "type": "object",
+              "properties": {},
+              "required": [],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "v",
+            "id",
+            "command",
+            "params"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "v": {
+              "const": 2
+            },
+            "id": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "command": {
+              "const": "AUTH_SIGN"
+            },
+            "params": {
+              "type": "object",
+              "properties": {
+                "device_id": {
+                  "type": "string",
+                  "minLength": 36,
+                  "maxLength": 36,
+                  "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+                },
+                "challenge_id": {
+                  "type": "string",
+                  "minLength": 36,
+                  "maxLength": 36,
+                  "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+                },
+                "nonce": {
+                  "type": "string",
+                  "minLength": 43,
+                  "maxLength": 43,
+                  "pattern": "^[A-Za-z0-9_-]{43}$"
+                },
+                "expires_at": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "audience": {
+                  "enum": [
+                    "mm02-dev",
+                    "mm02-prod"
+                  ]
+                }
+              },
+              "required": [
+                "device_id",
+                "challenge_id",
+                "nonce",
+                "expires_at",
+                "audience"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "v",
+            "id",
+            "command",
+            "params"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "v": {
+              "const": 2
+            },
+            "id": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "command": {
+              "const": "LIBRARY_LIST"
+            },
+            "params": {
+              "type": "object",
+              "properties": {
+                "cursor": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 128
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "limit": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 50
+                }
+              },
+              "required": [
+                "cursor",
+                "limit"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "v",
+            "id",
+            "command",
+            "params"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "v": {
+              "const": 2
+            },
+            "id": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "command": {
+              "const": "INSTALL_BEGIN"
+            },
+            "params": {
+              "type": "object",
+              "properties": {
+                "manifest_jws": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 12288,
+                  "pattern": "^[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+$"
+                },
+                "license_jws": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 12288,
+                  "pattern": "^[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+$"
+                }
+              },
+              "required": [
+                "manifest_jws",
+                "license_jws"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "v",
+            "id",
+            "command",
+            "params"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "v": {
+              "const": 2
+            },
+            "id": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "command": {
+              "const": "PUT_BEGIN"
+            },
+            "params": {
+              "type": "object",
+              "properties": {
+                "install_id": {
+                  "type": "string",
+                  "minLength": 36,
+                  "maxLength": 36,
+                  "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+                },
+                "file_id": {
+                  "type": "string",
+                  "minLength": 36,
+                  "maxLength": 36,
+                  "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+                }
+              },
+              "required": [
+                "install_id",
+                "file_id"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "v",
+            "id",
+            "command",
+            "params"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "v": {
+              "const": 2
+            },
+            "id": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "command": {
+              "const": "PUT_CHUNK"
+            },
+            "params": {
+              "type": "object",
+              "properties": {
+                "transfer_id": {
+                  "type": "string",
+                  "minLength": 36,
+                  "maxLength": 36,
+                  "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+                },
+                "offset": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 2147483648
+                },
+                "data": {
+                  "type": "string",
+                  "minLength": 0,
+                  "maxLength": 16384,
+                  "pattern": "^[A-Za-z0-9_-]*$"
+                }
+              },
+              "required": [
+                "transfer_id",
+                "offset",
+                "data"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "v",
+            "id",
+            "command",
+            "params"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "v": {
+              "const": 2
+            },
+            "id": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "command": {
+              "const": "PUT_STATUS"
+            },
+            "params": {
+              "type": "object",
+              "properties": {
+                "transfer_id": {
+                  "type": "string",
+                  "minLength": 36,
+                  "maxLength": 36,
+                  "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+                }
+              },
+              "required": [
+                "transfer_id"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "v",
+            "id",
+            "command",
+            "params"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "v": {
+              "const": 2
+            },
+            "id": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "command": {
+              "const": "PUT_END"
+            },
+            "params": {
+              "type": "object",
+              "properties": {
+                "transfer_id": {
+                  "type": "string",
+                  "minLength": 36,
+                  "maxLength": 36,
+                  "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+                }
+              },
+              "required": [
+                "transfer_id"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "v",
+            "id",
+            "command",
+            "params"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "v": {
+              "const": 2
+            },
+            "id": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "command": {
+              "const": "INSTALL_COMMIT"
+            },
+            "params": {
+              "type": "object",
+              "properties": {
+                "install_id": {
+                  "type": "string",
+                  "minLength": 36,
+                  "maxLength": 36,
+                  "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+                }
+              },
+              "required": [
+                "install_id"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "v",
+            "id",
+            "command",
+            "params"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "v": {
+              "const": 2
+            },
+            "id": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "command": {
+              "const": "INSTALL_ABORT"
+            },
+            "params": {
+              "type": "object",
+              "properties": {
+                "install_id": {
+                  "type": "string",
+                  "minLength": 36,
+                  "maxLength": 36,
+                  "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+                }
+              },
+              "required": [
+                "install_id"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "v",
+            "id",
+            "command",
+            "params"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "v": {
+              "const": 2
+            },
+            "id": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "command": {
+              "const": "UPDATE_COMMIT"
+            },
+            "params": {
+              "type": "object",
+              "properties": {
+                "install_id": {
+                  "type": "string",
+                  "minLength": 36,
+                  "maxLength": 36,
+                  "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+                }
+              },
+              "required": [
+                "install_id"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "v",
+            "id",
+            "command",
+            "params"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "v": {
+              "const": 2
+            },
+            "id": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "command": {
+              "const": "CONTENT_DELETE"
+            },
+            "params": {
+              "type": "object",
+              "properties": {
+                "content_id": {
+                  "type": "string",
+                  "minLength": 36,
+                  "maxLength": 36,
+                  "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+                }
+              },
+              "required": [
+                "content_id"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "v",
+            "id",
+            "command",
+            "params"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "v": {
+              "const": 2
+            },
+            "id": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "command": {
+              "const": "SETTINGS_SET"
+            },
+            "params": {
+              "type": "object",
+              "properties": {
+                "volume_cap_percent": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 100
+                },
+                "led_brightness_percent": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 100
+                }
+              },
+              "required": [],
+              "additionalProperties": false,
+              "minProperties": 1
+            }
+          },
+          "required": [
+            "v",
+            "id",
+            "command",
+            "params"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "v": {
+              "const": 2
+            },
+            "id": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "command": {
+              "const": "UPDATE_BEGIN"
+            },
+            "params": {
+              "type": "object",
+              "properties": {
+                "manifest_jws": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 12288,
+                  "pattern": "^[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+$"
+                }
+              },
+              "required": [
+                "manifest_jws"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "v",
+            "id",
+            "command",
+            "params"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "response": {
+      "oneOf": [
+        {
+          "oneOf": [
+            {
+              "type": "object",
+              "properties": {
+                "v": {
+                  "const": 2
+                },
+                "id": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 9007199254740991
+                },
+                "command": {
+                  "const": "HELLO"
+                },
+                "ok": {
+                  "const": true
+                },
+                "result": {
+                  "type": "object",
+                  "properties": {
+                    "device_id": {
+                      "type": "string",
+                      "minLength": 36,
+                      "maxLength": 36,
+                      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+                    },
+                    "hardware_id": {
+                      "const": "mm02-s3n16r8-r1"
+                    },
+                    "firmware_version": {
+                      "type": "string",
+                      "minLength": 5,
+                      "maxLength": 128,
+                      "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(-[0-9A-Za-z-]+(\\.[0-9A-Za-z-]+)*)?(\\+[0-9A-Za-z-]+(\\.[0-9A-Za-z-]+)*)?$"
+                    },
+                    "security_profile": {
+                      "enum": [
+                        "dev",
+                        "production"
+                      ]
+                    },
+                    "protocol_versions": {
+                      "const": [
+                        2
+                      ]
+                    },
+                    "capabilities": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 64
+                      },
+                      "minItems": 0,
+                      "maxItems": 32
+                    },
+                    "max_chunk_bytes": {
+                      "const": 12288
+                    },
+                    "management_window_open": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "device_id",
+                    "hardware_id",
+                    "firmware_version",
+                    "security_profile",
+                    "protocol_versions",
+                    "capabilities",
+                    "max_chunk_bytes",
+                    "management_window_open"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "v",
+                "id",
+                "command",
+                "ok",
+                "result"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "v": {
+                  "const": 2
+                },
+                "id": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 9007199254740991
+                },
+                "command": {
+                  "const": "SESSION_OPEN"
+                },
+                "ok": {
+                  "const": true
+                },
+                "result": {
+                  "type": "object",
+                  "properties": {
+                    "session_id": {
+                      "type": "string",
+                      "minLength": 36,
+                      "maxLength": 36,
+                      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+                    }
+                  },
+                  "required": [
+                    "session_id"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "v",
+                "id",
+                "command",
+                "ok",
+                "result"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "v": {
+                  "const": 2
+                },
+                "id": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 9007199254740991
+                },
+                "command": {
+                  "const": "STATUS"
+                },
+                "ok": {
+                  "const": true
+                },
+                "result": {
+                  "type": "object",
+                  "properties": {
+                    "mode": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 32
+                    },
+                    "content_id": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "minLength": 36,
+                          "maxLength": 36,
+                          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "chapter_index": {
+                      "anyOf": [
+                        {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 9007199254740991
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "position_ms": {
+                      "anyOf": [
+                        {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 9007199254740991
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "supply_mv": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 10000
+                    },
+                    "usb_present": {
+                      "type": "boolean"
+                    },
+                    "sd_free_bytes": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    },
+                    "transfer_state": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 32
+                    }
+                  },
+                  "required": [
+                    "mode",
+                    "content_id",
+                    "chapter_index",
+                    "position_ms",
+                    "supply_mv",
+                    "usb_present",
+                    "sd_free_bytes",
+                    "transfer_state"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "v",
+                "id",
+                "command",
+                "ok",
+                "result"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "v": {
+                  "const": 2
+                },
+                "id": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 9007199254740991
+                },
+                "command": {
+                  "const": "SETTINGS_GET"
+                },
+                "ok": {
+                  "const": true
+                },
+                "result": {
+                  "type": "object",
+                  "properties": {
+                    "volume_cap_percent": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 100
+                    },
+                    "led_brightness_percent": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 100
+                    }
+                  },
+                  "required": [
+                    "volume_cap_percent",
+                    "led_brightness_percent"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "v",
+                "id",
+                "command",
+                "ok",
+                "result"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "v": {
+                  "const": 2
+                },
+                "id": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 9007199254740991
+                },
+                "command": {
+                  "const": "AUTH_SIGN"
+                },
+                "ok": {
+                  "const": true
+                },
+                "result": {
+                  "type": "object",
+                  "properties": {
+                    "signature": {
+                      "type": "string",
+                      "minLength": 512,
+                      "maxLength": 512,
+                      "pattern": "^[A-Za-z0-9_-]{512}$"
+                    }
+                  },
+                  "required": [
+                    "signature"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "v",
+                "id",
+                "command",
+                "ok",
+                "result"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "v": {
+                  "const": 2
+                },
+                "id": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 9007199254740991
+                },
+                "command": {
+                  "const": "LIBRARY_LIST"
+                },
+                "ok": {
+                  "const": true
+                },
+                "result": {
+                  "type": "object",
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "content_id": {
+                            "type": "string",
+                            "minLength": 36,
+                            "maxLength": 36,
+                            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+                          },
+                          "version": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 9007199254740991
+                          },
+                          "title": {
+                            "type": "string",
+                            "minLength": 0,
+                            "maxLength": 160
+                          },
+                          "position_ms": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "completed": {
+                            "type": "boolean"
+                          }
+                        },
+                        "required": [
+                          "content_id",
+                          "version",
+                          "title",
+                          "position_ms",
+                          "completed"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "minItems": 0,
+                      "maxItems": 50
+                    },
+                    "next_cursor": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 128
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    }
+                  },
+                  "required": [
+                    "items",
+                    "next_cursor"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "v",
+                "id",
+                "command",
+                "ok",
+                "result"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "v": {
+                  "const": 2
+                },
+                "id": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 9007199254740991
+                },
+                "command": {
+                  "const": "INSTALL_BEGIN"
+                },
+                "ok": {
+                  "const": true
+                },
+                "result": {
+                  "type": "object",
+                  "properties": {
+                    "install_id": {
+                      "type": "string",
+                      "minLength": 36,
+                      "maxLength": 36,
+                      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+                    }
+                  },
+                  "required": [
+                    "install_id"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "v",
+                "id",
+                "command",
+                "ok",
+                "result"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "v": {
+                  "const": 2
+                },
+                "id": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 9007199254740991
+                },
+                "command": {
+                  "const": "PUT_BEGIN"
+                },
+                "ok": {
+                  "const": true
+                },
+                "result": {
+                  "type": "object",
+                  "properties": {
+                    "transfer_id": {
+                      "type": "string",
+                      "minLength": 36,
+                      "maxLength": 36,
+                      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+                    },
+                    "next_offset": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 2147483648
+                    },
+                    "prefix_sha256": {
+                      "type": "string",
+                      "minLength": 64,
+                      "maxLength": 64,
+                      "pattern": "^[0-9a-f]{64}$"
+                    }
+                  },
+                  "required": [
+                    "transfer_id",
+                    "next_offset",
+                    "prefix_sha256"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "v",
+                "id",
+                "command",
+                "ok",
+                "result"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "v": {
+                  "const": 2
+                },
+                "id": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 9007199254740991
+                },
+                "command": {
+                  "const": "PUT_CHUNK"
+                },
+                "ok": {
+                  "const": true
+                },
+                "result": {
+                  "type": "object",
+                  "properties": {
+                    "next_offset": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 2147483648
+                    }
+                  },
+                  "required": [
+                    "next_offset"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "v",
+                "id",
+                "command",
+                "ok",
+                "result"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "v": {
+                  "const": 2
+                },
+                "id": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 9007199254740991
+                },
+                "command": {
+                  "const": "PUT_STATUS"
+                },
+                "ok": {
+                  "const": true
+                },
+                "result": {
+                  "type": "object",
+                  "properties": {
+                    "next_offset": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 2147483648
+                    },
+                    "prefix_sha256": {
+                      "type": "string",
+                      "minLength": 64,
+                      "maxLength": 64,
+                      "pattern": "^[0-9a-f]{64}$"
+                    }
+                  },
+                  "required": [
+                    "next_offset",
+                    "prefix_sha256"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "v",
+                "id",
+                "command",
+                "ok",
+                "result"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "v": {
+                  "const": 2
+                },
+                "id": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 9007199254740991
+                },
+                "command": {
+                  "const": "PUT_END"
+                },
+                "ok": {
+                  "const": true
+                },
+                "result": {
+                  "type": "object",
+                  "properties": {
+                    "verified": {
+                      "const": true
+                    }
+                  },
+                  "required": [
+                    "verified"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "v",
+                "id",
+                "command",
+                "ok",
+                "result"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "v": {
+                  "const": 2
+                },
+                "id": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 9007199254740991
+                },
+                "command": {
+                  "const": "INSTALL_COMMIT"
+                },
+                "ok": {
+                  "const": true
+                },
+                "result": {
+                  "type": "object",
+                  "properties": {},
+                  "required": [],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "v",
+                "id",
+                "command",
+                "ok",
+                "result"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "v": {
+                  "const": 2
+                },
+                "id": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 9007199254740991
+                },
+                "command": {
+                  "const": "INSTALL_ABORT"
+                },
+                "ok": {
+                  "const": true
+                },
+                "result": {
+                  "type": "object",
+                  "properties": {},
+                  "required": [],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "v",
+                "id",
+                "command",
+                "ok",
+                "result"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "v": {
+                  "const": 2
+                },
+                "id": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 9007199254740991
+                },
+                "command": {
+                  "const": "UPDATE_COMMIT"
+                },
+                "ok": {
+                  "const": true
+                },
+                "result": {
+                  "type": "object",
+                  "properties": {},
+                  "required": [],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "v",
+                "id",
+                "command",
+                "ok",
+                "result"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "v": {
+                  "const": 2
+                },
+                "id": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 9007199254740991
+                },
+                "command": {
+                  "const": "CONTENT_DELETE"
+                },
+                "ok": {
+                  "const": true
+                },
+                "result": {
+                  "type": "object",
+                  "properties": {},
+                  "required": [],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "v",
+                "id",
+                "command",
+                "ok",
+                "result"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "v": {
+                  "const": 2
+                },
+                "id": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 9007199254740991
+                },
+                "command": {
+                  "const": "SETTINGS_SET"
+                },
+                "ok": {
+                  "const": true
+                },
+                "result": {
+                  "type": "object",
+                  "properties": {},
+                  "required": [],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "v",
+                "id",
+                "command",
+                "ok",
+                "result"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "v": {
+                  "const": 2
+                },
+                "id": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 9007199254740991
+                },
+                "command": {
+                  "const": "UPDATE_BEGIN"
+                },
+                "ok": {
+                  "const": true
+                },
+                "result": {
+                  "type": "object",
+                  "properties": {
+                    "install_id": {
+                      "type": "string",
+                      "minLength": 36,
+                      "maxLength": 36,
+                      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+                    }
+                  },
+                  "required": [
+                    "install_id"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "v",
+                "id",
+                "command",
+                "ok",
+                "result"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "v": {
+              "const": 2
+            },
+            "id": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "command": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 48,
+              "pattern": "^[A-Z][A-Z0-9_]{0,47}$"
+            },
+            "ok": {
+              "const": false
+            },
+            "error": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "enum": [
+                    "UNSUPPORTED_VERSION",
+                    "UNSUPPORTED_COMMAND",
+                    "INVALID_ARGUMENT",
+                    "NOT_AUTHORIZED",
+                    "BUSY",
+                    "NO_SD",
+                    "NO_SPACE",
+                    "NOT_FOUND",
+                    "OFFSET_MISMATCH",
+                    "HASH_MISMATCH",
+                    "INVALID_SIGNATURE",
+                    "WRONG_DEVICE",
+                    "WRONG_HARDWARE",
+                    "LOW_POWER",
+                    "IO_ERROR",
+                    "INTERNAL"
+                  ]
+                },
+                "message": {
+                  "type": "string",
+                  "minLength": 0,
+                  "maxLength": 512
+                }
+              },
+              "required": [
+                "code",
+                "message"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "v",
+            "id",
+            "command",
+            "ok",
+            "error"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "params": {
+      "HELLO": {
+        "type": "object",
+        "properties": {},
+        "required": [],
+        "additionalProperties": false
+      },
+      "SESSION_OPEN": {
+        "type": "object",
+        "properties": {},
+        "required": [],
+        "additionalProperties": false
+      },
+      "STATUS": {
+        "type": "object",
+        "properties": {},
+        "required": [],
+        "additionalProperties": false
+      },
+      "SETTINGS_GET": {
+        "type": "object",
+        "properties": {},
+        "required": [],
+        "additionalProperties": false
+      },
+      "AUTH_SIGN": {
+        "type": "object",
+        "properties": {
+          "device_id": {
+            "type": "string",
+            "minLength": 36,
+            "maxLength": 36,
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "challenge_id": {
+            "type": "string",
+            "minLength": 36,
+            "maxLength": 36,
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "nonce": {
+            "type": "string",
+            "minLength": 43,
+            "maxLength": 43,
+            "pattern": "^[A-Za-z0-9_-]{43}$"
+          },
+          "expires_at": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "audience": {
+            "enum": [
+              "mm02-dev",
+              "mm02-prod"
+            ]
+          }
+        },
+        "required": [
+          "device_id",
+          "challenge_id",
+          "nonce",
+          "expires_at",
+          "audience"
+        ],
+        "additionalProperties": false
+      },
+      "LIBRARY_LIST": {
+        "type": "object",
+        "properties": {
+          "cursor": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 50
+          }
+        },
+        "required": [
+          "cursor",
+          "limit"
+        ],
+        "additionalProperties": false
+      },
+      "INSTALL_BEGIN": {
+        "type": "object",
+        "properties": {
+          "manifest_jws": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 12288,
+            "pattern": "^[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+$"
+          },
+          "license_jws": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 12288,
+            "pattern": "^[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+$"
+          }
+        },
+        "required": [
+          "manifest_jws",
+          "license_jws"
+        ],
+        "additionalProperties": false
+      },
+      "PUT_BEGIN": {
+        "type": "object",
+        "properties": {
+          "install_id": {
+            "type": "string",
+            "minLength": 36,
+            "maxLength": 36,
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "file_id": {
+            "type": "string",
+            "minLength": 36,
+            "maxLength": 36,
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          }
+        },
+        "required": [
+          "install_id",
+          "file_id"
+        ],
+        "additionalProperties": false
+      },
+      "PUT_CHUNK": {
+        "type": "object",
+        "properties": {
+          "transfer_id": {
+            "type": "string",
+            "minLength": 36,
+            "maxLength": 36,
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "offset": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 2147483648
+          },
+          "data": {
+            "type": "string",
+            "minLength": 0,
+            "maxLength": 16384,
+            "pattern": "^[A-Za-z0-9_-]*$"
+          }
+        },
+        "required": [
+          "transfer_id",
+          "offset",
+          "data"
+        ],
+        "additionalProperties": false
+      },
+      "PUT_STATUS": {
+        "type": "object",
+        "properties": {
+          "transfer_id": {
+            "type": "string",
+            "minLength": 36,
+            "maxLength": 36,
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          }
+        },
+        "required": [
+          "transfer_id"
+        ],
+        "additionalProperties": false
+      },
+      "PUT_END": {
+        "type": "object",
+        "properties": {
+          "transfer_id": {
+            "type": "string",
+            "minLength": 36,
+            "maxLength": 36,
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          }
+        },
+        "required": [
+          "transfer_id"
+        ],
+        "additionalProperties": false
+      },
+      "INSTALL_COMMIT": {
+        "type": "object",
+        "properties": {
+          "install_id": {
+            "type": "string",
+            "minLength": 36,
+            "maxLength": 36,
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          }
+        },
+        "required": [
+          "install_id"
+        ],
+        "additionalProperties": false
+      },
+      "INSTALL_ABORT": {
+        "type": "object",
+        "properties": {
+          "install_id": {
+            "type": "string",
+            "minLength": 36,
+            "maxLength": 36,
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          }
+        },
+        "required": [
+          "install_id"
+        ],
+        "additionalProperties": false
+      },
+      "UPDATE_COMMIT": {
+        "type": "object",
+        "properties": {
+          "install_id": {
+            "type": "string",
+            "minLength": 36,
+            "maxLength": 36,
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          }
+        },
+        "required": [
+          "install_id"
+        ],
+        "additionalProperties": false
+      },
+      "CONTENT_DELETE": {
+        "type": "object",
+        "properties": {
+          "content_id": {
+            "type": "string",
+            "minLength": 36,
+            "maxLength": 36,
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          }
+        },
+        "required": [
+          "content_id"
+        ],
+        "additionalProperties": false
+      },
+      "SETTINGS_SET": {
+        "type": "object",
+        "properties": {
+          "volume_cap_percent": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "led_brightness_percent": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100
+          }
+        },
+        "required": [],
+        "additionalProperties": false,
+        "minProperties": 1
+      },
+      "UPDATE_BEGIN": {
+        "type": "object",
+        "properties": {
+          "manifest_jws": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 12288,
+            "pattern": "^[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+$"
+          }
+        },
+        "required": [
+          "manifest_jws"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "results": {
+      "HELLO": {
+        "type": "object",
+        "properties": {
+          "device_id": {
+            "type": "string",
+            "minLength": 36,
+            "maxLength": 36,
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "hardware_id": {
+            "const": "mm02-s3n16r8-r1"
+          },
+          "firmware_version": {
+            "type": "string",
+            "minLength": 5,
+            "maxLength": 128,
+            "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(-[0-9A-Za-z-]+(\\.[0-9A-Za-z-]+)*)?(\\+[0-9A-Za-z-]+(\\.[0-9A-Za-z-]+)*)?$"
+          },
+          "security_profile": {
+            "enum": [
+              "dev",
+              "production"
+            ]
+          },
+          "protocol_versions": {
+            "const": [
+              2
+            ]
+          },
+          "capabilities": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64
+            },
+            "minItems": 0,
+            "maxItems": 32
+          },
+          "max_chunk_bytes": {
+            "const": 12288
+          },
+          "management_window_open": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "device_id",
+          "hardware_id",
+          "firmware_version",
+          "security_profile",
+          "protocol_versions",
+          "capabilities",
+          "max_chunk_bytes",
+          "management_window_open"
+        ],
+        "additionalProperties": false
+      },
+      "SESSION_OPEN": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string",
+            "minLength": 36,
+            "maxLength": 36,
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          }
+        },
+        "required": [
+          "session_id"
+        ],
+        "additionalProperties": false
+      },
+      "STATUS": {
+        "type": "object",
+        "properties": {
+          "mode": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 32
+          },
+          "content_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 36,
+                "maxLength": 36,
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "chapter_index": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "position_ms": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "supply_mv": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10000
+          },
+          "usb_present": {
+            "type": "boolean"
+          },
+          "sd_free_bytes": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "transfer_state": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 32
+          }
+        },
+        "required": [
+          "mode",
+          "content_id",
+          "chapter_index",
+          "position_ms",
+          "supply_mv",
+          "usb_present",
+          "sd_free_bytes",
+          "transfer_state"
+        ],
+        "additionalProperties": false
+      },
+      "SETTINGS_GET": {
+        "type": "object",
+        "properties": {
+          "volume_cap_percent": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "led_brightness_percent": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100
+          }
+        },
+        "required": [
+          "volume_cap_percent",
+          "led_brightness_percent"
+        ],
+        "additionalProperties": false
+      },
+      "AUTH_SIGN": {
+        "type": "object",
+        "properties": {
+          "signature": {
+            "type": "string",
+            "minLength": 512,
+            "maxLength": 512,
+            "pattern": "^[A-Za-z0-9_-]{512}$"
+          }
+        },
+        "required": [
+          "signature"
+        ],
+        "additionalProperties": false
+      },
+      "LIBRARY_LIST": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "content_id": {
+                  "type": "string",
+                  "minLength": 36,
+                  "maxLength": 36,
+                  "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+                },
+                "version": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 9007199254740991
+                },
+                "title": {
+                  "type": "string",
+                  "minLength": 0,
+                  "maxLength": 160
+                },
+                "position_ms": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "completed": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "content_id",
+                "version",
+                "title",
+                "position_ms",
+                "completed"
+              ],
+              "additionalProperties": false
+            },
+            "minItems": 0,
+            "maxItems": 50
+          },
+          "next_cursor": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "items",
+          "next_cursor"
+        ],
+        "additionalProperties": false
+      },
+      "INSTALL_BEGIN": {
+        "type": "object",
+        "properties": {
+          "install_id": {
+            "type": "string",
+            "minLength": 36,
+            "maxLength": 36,
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          }
+        },
+        "required": [
+          "install_id"
+        ],
+        "additionalProperties": false
+      },
+      "PUT_BEGIN": {
+        "type": "object",
+        "properties": {
+          "transfer_id": {
+            "type": "string",
+            "minLength": 36,
+            "maxLength": 36,
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "next_offset": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 2147483648
+          },
+          "prefix_sha256": {
+            "type": "string",
+            "minLength": 64,
+            "maxLength": 64,
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        },
+        "required": [
+          "transfer_id",
+          "next_offset",
+          "prefix_sha256"
+        ],
+        "additionalProperties": false
+      },
+      "PUT_CHUNK": {
+        "type": "object",
+        "properties": {
+          "next_offset": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 2147483648
+          }
+        },
+        "required": [
+          "next_offset"
+        ],
+        "additionalProperties": false
+      },
+      "PUT_STATUS": {
+        "type": "object",
+        "properties": {
+          "next_offset": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 2147483648
+          },
+          "prefix_sha256": {
+            "type": "string",
+            "minLength": 64,
+            "maxLength": 64,
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        },
+        "required": [
+          "next_offset",
+          "prefix_sha256"
+        ],
+        "additionalProperties": false
+      },
+      "PUT_END": {
+        "type": "object",
+        "properties": {
+          "verified": {
+            "const": true
+          }
+        },
+        "required": [
+          "verified"
+        ],
+        "additionalProperties": false
+      },
+      "INSTALL_COMMIT": {
+        "type": "object",
+        "properties": {},
+        "required": [],
+        "additionalProperties": false
+      },
+      "INSTALL_ABORT": {
+        "type": "object",
+        "properties": {},
+        "required": [],
+        "additionalProperties": false
+      },
+      "UPDATE_COMMIT": {
+        "type": "object",
+        "properties": {},
+        "required": [],
+        "additionalProperties": false
+      },
+      "CONTENT_DELETE": {
+        "type": "object",
+        "properties": {},
+        "required": [],
+        "additionalProperties": false
+      },
+      "SETTINGS_SET": {
+        "type": "object",
+        "properties": {},
+        "required": [],
+        "additionalProperties": false
+      },
+      "UPDATE_BEGIN": {
+        "type": "object",
+        "properties": {
+          "install_id": {
+            "type": "string",
+            "minLength": 36,
+            "maxLength": 36,
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          }
+        },
+        "required": [
+          "install_id"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "challenge": {
+      "type": "object",
+      "properties": {
+        "device_id": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+        },
+        "challenge_id": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+        },
+        "nonce": {
+          "type": "string",
+          "minLength": 43,
+          "maxLength": 43,
+          "pattern": "^[A-Za-z0-9_-]{43}$"
+        },
+        "expires_at": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "audience": {
+          "enum": [
+            "mm02-dev",
+            "mm02-prod"
+          ]
+        }
+      },
+      "required": [
+        "device_id",
+        "challenge_id",
+        "nonce",
+        "expires_at",
+        "audience"
+      ],
+      "additionalProperties": false
+    }
+  }
+}
