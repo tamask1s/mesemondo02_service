@@ -1,0 +1,7 @@
+{
+  "test_only": true,
+  "items": [
+    {"content_id":"a0000000-0000-4000-8000-000000000000","title":"A szállást kérő róka","source":"nepmese00.mp3","description":"Magyar népmese. Tesztkiadás: a címhang egyelőre a felvétel első 5 másodperce (zene).","price_minor":10000,"currency":"HUF","title_seconds":5},
+    {"content_id":"a0000000-0000-4000-8000-000000000001","title":"Az égig érő paszuly","source":"nepmese01.mp3","description":"Magyar népmese. Tesztkiadás: a címhang egyelőre a felvétel első 5 másodperce (zene).","price_minor":10000,"currency":"HUF","title_seconds":5}
+  ]
+}

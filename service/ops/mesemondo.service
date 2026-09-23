@@ -1,0 +1,37 @@
+[Unit]
+Description=Mesemondo device-centric API
+After=network.target mesemondo-postgresql.service
+Requires=mesemondo-postgresql.service
+
+[Service]
+Type=simple
+User=mesemondo
+Group=mesemondo
+WorkingDirectory=/opt/mesemondo/current
+Environment=PYTHONPATH=/opt/mesemondo/current/service
+Environment=PYTHONDONTWRITEBYTECODE=1
+Environment=MM02_CONFIG=/etc/mesemondo/config.json
+ExecStart=/opt/mesemondo/venv/bin/uvicorn mesemondo.api:create_app --factory --host 127.0.0.1 --port 8092 --workers 1 --no-access-log --proxy-headers --forwarded-allow-ips 127.0.0.1 --timeout-keep-alive 5 --limit-concurrency 12 --backlog 32
+Restart=on-failure
+RestartSec=5
+# Small VPS: one process, bounded concurrency; leave CPU for Synsigra/SSH.
+Nice=10
+CPUQuota=50%
+MemoryHigh=128M
+MemoryMax=192M
+TasksMax=24
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+LockPersonality=true
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+ReadOnlyPaths=/var/lib/mesemondo/content /etc/mesemondo
+
+[Install]
+WantedBy=multi-user.target

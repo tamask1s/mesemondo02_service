@@ -1,0 +1,15 @@
+{
+  "profile": "production",
+  "database_url": "postgresql://mesemondo@/mesemondo?host=/run/postgresql",
+  "storage": "/var/lib/mesemondo/content",
+  "public_base": "https://www.timeonion.com/mesemondo/api/v1/",
+  "manifest_key": "/etc/mesemondo/secrets/MISSING-manifest.pem",
+  "license_key": "/etc/mesemondo/secrets/MISSING-license.pem",
+  "manifest_kid": "MISSING-firmware-trusted-manifest-kid",
+  "license_kid": "MISSING-firmware-trusted-license-kid",
+  "trusted_keys": "/etc/mesemondo/MISSING-trusted-keys.json",
+  "replay_key": "/etc/mesemondo/secrets/MISSING-replay-fernet.key",
+  "webhook_key": "/etc/mesemondo/secrets/MISSING-provider.key",
+  "test_payments": false,
+  "secure_boot_public_key": null
+}

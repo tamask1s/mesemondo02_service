@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+psycopg[binary]
+cryptography
+jsonschema
+httpx
+pytest
+esptool

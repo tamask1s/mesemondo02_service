@@ -1,0 +1,22 @@
+[Unit]
+Description=Mesemondo expired tokens and encrypted replays cleanup
+After=mesemondo-postgresql.service
+Requires=mesemondo-postgresql.service
+[Service]
+Type=oneshot
+User=mesemondo
+Group=mesemondo
+WorkingDirectory=/opt/mesemondo/current
+Environment=PYTHONPATH=/opt/mesemondo/current/service
+Environment=PYTHONDONTWRITEBYTECODE=1
+Environment=MM02_CONFIG=/etc/mesemondo/config.json
+ExecStart=/opt/mesemondo/venv/bin/python -m mesemondo.admin cleanup
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+UMask=0077
+Nice=15
+CPUQuota=20%
+MemoryMax=96M
+TasksMax=8
